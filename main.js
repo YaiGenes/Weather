@@ -104,7 +104,7 @@ function searchCity() {
               //-Temp
               let tempMax = data.temperaturas.max;
               let tempMin = data.temperaturas.min;
-              temps[0].textContent = `Temperatura: ${tempMin}ºC - ${tempMax}ºC`;
+              temps[0].textContent = `Temperature: ${tempMin}ºC - ${tempMax}ºC`;
 
               //-Sens
               let allSens = data.pronostico.hoy.sens_termica;
@@ -215,7 +215,7 @@ function searchCity() {
               //-Temp
               let tempMax = data.proximos_dias[i - 1].temperatura.maxima;
               let tempMin = data.proximos_dias[i - 1].temperatura.minima;
-              temps[i].textContent = `Temperatura: ${tempMin}ºC - ${tempMax}ºC`;
+              temps[i].textContent = `Temperature: ${tempMin}ºC - ${tempMax}ºC`;
 
               //-Sens
               let sensMax = data.proximos_dias[i - 1].sens_termica.maxima;
