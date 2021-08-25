@@ -18,16 +18,32 @@
     ></script>
     <title>Weather</title>
   </head>
-  <body>
-    <label for="exampleDataList" class="form-label">Datalist example</label>
-    <input
-      class="form-control"
-      list="datalistOptions"
-      id="exampleDataList"
-      placeholder="Type to search..."
-    />
-    <datalist id="datalistOptions"> </datalist>
-    <button class="btn btn-outline-success" id="search">Search</button>
+  <body class="p-5">
+    <header>
+      <img
+        src="assets/header.webp"
+        class="w-100"
+        style="height: 10vh"
+        alt="sky clouds"
+      />
+    </header>
+    <label
+      for="exampleDataList"
+      class="form-label w-100 left-50 m-auto text-center h4"
+      >Search your City</label
+    >
+    <div class="row w-100 m-auto">
+      <div class="col-9">
+        <input
+          class="form-control m-auto"
+          list="datalistOptions"
+          id="exampleDataList"
+          placeholder="Type to search..."
+        />
+        <datalist id="datalistOptions"> </datalist>
+      </div>
+      <button class="btn btn-outline-success col-3" id="search">Search</button>
+    </div>
 
     <script src="main.js"></script>
   </body>
