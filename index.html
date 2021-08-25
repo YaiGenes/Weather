@@ -1,20 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" defer integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      defer
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
     <title>Weather</title>
-</head>
+  </head>
 
-<body class="p-1 w-100">
+  <body class="p-1 w-100">
     <header>
-        <img src="assets/header.webp" class="w-100" style="height: 10vh" alt="sky clouds" />
+      <img
+        src="assets/header.webp"
+        class="w-100"
+        style="height: 10vh"
+        alt="sky clouds"
+      />
     </header>
-    <label for="exampleDataList" class="form-label w-100 left-50 m-auto text-center h4">Search your City</label
+    <label
+      for="exampleDataList"
+      class="form-label w-100 left-50 m-auto text-center h4"
+      >Search your City</label
     >
     <div class="row w-100 m-auto">
       <div class="col-9">
@@ -28,94 +45,117 @@
       </div>
       <button class="btn btn-outline-success col-3" id="search">Search</button>
     </div>
-    <p class="h2 text-center" id="cityName"></p>
-    <p class="h6 text-center" id="provinceName"></p>
-    <div id="weatherTable">
-      <div class="row w-100 m-auto" id="day-0">
-        <div class="col-3" date>today</div>
-        <div class="col-3">
-          <div sky class="row-6"></div>
-          <div wind class="row-6"></div>
+    <main>
+      <p class="h2 text-center" id="cityName"></p>
+      <p class="h6 text-center" id="provinceName"></p>
+      <div id="weatherTable">
+        <div class="row w-100 m-auto" id="day-0">
+          <div class="col-3" date></div>
+          <div class="col-3">
+            <div sky class="row-6"></div>
+            <div wind class="row-6"></div>
+          </div>
+          <div class="col-3" temp-sens>
+            <div class="row-6" temp></div>
+            <div class="row-6" sens></div>
+          </div>
+          <div class="col-3" humidity-rain>
+            <div humidity class="row-6"></div>
+            <div rain class="row-6"></div>
+          </div>
         </div>
-        <div class="col-3" temp>today</div>
-        <div class="col-3" humidity-rain>
-          <div humidity class="row-6"></div>
-          <div rain class="row-6"></div>
+        <div class="row w-100 m-auto" id="day-1">
+          <div class="col-3" date></div>
+          <div class="col-3">
+            <div sky class="row-6"></div>
+            <div wind class="row-6"></div>
+          </div>
+          <div class="col-3" temp-sens>
+            <div class="row-6" temp></div>
+            <div class="row-6" sens></div>
+          </div>
+          <div class="col-3" humidity-rain>
+            <div humidity class="row-6"></div>
+            <div rain class="row-6"></div>
+          </div>
+        </div>
+        <div class="row w-100 m-auto" id="day-2">
+          <div class="col-3" date></div>
+          <div class="col-3">
+            <div sky class="row-6"></div>
+            <div wind class="row-6"></div>
+          </div>
+          <div class="col-3" temp-sens>
+            <div class="row-6" temp></div>
+            <div class="row-6" sens></div>
+          </div>
+          <div class="col-3" humidity-rain>
+            <div humidity class="row-6"></div>
+            <div rain class="row-6"></div>
+          </div>
+        </div>
+        <div class="row w-100 m-auto" id="day-3">
+          <div class="col-3" date></div>
+          <div class="col-3">
+            <div sky class="row-6"></div>
+            <div wind class="row-6"></div>
+          </div>
+          <div class="col-3" temp-sens>
+            <div class="row-6" temp></div>
+            <div class="row-6" sens></div>
+          </div>
+          <div class="col-3" humidity-rain>
+            <div humidity class="row-6"></div>
+            <div rain class="row-6"></div>
+          </div>
+        </div>
+        <div class="row w-100 m-auto" id="day-4">
+          <div class="col-3" date></div>
+          <div class="col-3">
+            <div sky class="row-6"></div>
+            <div wind class="row-6"></div>
+          </div>
+          <div class="col-3" temp-sens>
+            <div class="row-6" temp></div>
+            <div class="row-6" sens></div>
+          </div>
+          <div class="col-3" humidity-rain>
+            <div humidity class="row-6"></div>
+            <div rain class="row-6"></div>
+          </div>
+        </div>
+        <div class="row w-100 m-auto" id="day-5">
+          <div class="col-3" date></div>
+          <div class="col-3">
+            <div sky class="row-6"></div>
+            <div wind class="row-6"></div>
+          </div>
+          <div class="col-3" temp-sens>
+            <div class="row-6" temp></div>
+            <div class="row-6" sens></div>
+          </div>
+          <div class="col-3" humidity-rain>
+            <div humidity class="row-6"></div>
+            <div rain class="row-6"></div>
+          </div>
+        </div>
+        <div class="row w-100 m-auto" id="day-6">
+          <div class="col-3" date></div>
+          <div class="col-3">
+            <div sky class="row-6"></div>
+            <div wind class="row-6"></div>
+          </div>
+          <div class="col-3" temp-sens>
+            <div class="row-6" temp></div>
+            <div class="row-6" sens></div>
+          </div>
+          <div class="col-3" humidity-rain>
+            <div humidity class="row-6"></div>
+            <div rain class="row-6"></div>
+          </div>
         </div>
       </div>
-      <div class="row w-100 m-auto" id="day-1">
-        <div class="col-3" date>tomorrow</div>
-        <div class="col-3">
-          <div sky class="row-6"></div>
-          <div wind class="row-6"></div>
-        </div>
-        <div class="col-3" temp>tomorrow</div>
-        <div class="col-3" humidity-rain>
-          <div humidity class="row-6"></div>
-          <div rain class="row-6"></div>
-        </div>
-      </div>
-      <div class="row w-100 m-auto" id="day-2">
-        <div class="col-3" date>today</div>
-        <div class="col-3">
-          <div sky class="row-6"></div>
-          <div wind class="row-6"></div>
-        </div>
-        <div class="col-3" temp>today</div>
-        <div class="col-3" humidity-rain>
-          <div humidity class="row-6"></div>
-          <div rain class="row-6"></div>
-        </div>
-      </div>
-      <div class="row w-100 m-auto" id="day-3">
-        <div class="col-3" date>tomorrow</div>
-        <div class="col-3">
-          <div sky class="row-6"></div>
-          <div wind class="row-6"></div>
-        </div>
-        <div class="col-3" temp>tomorrow</div>
-        <div class="col-3" humidity-rain>
-          <div humidity class="row-6"></div>
-          <div rain class="row-6"></div>
-        </div>
-      </div>
-      <div class="row w-100 m-auto" id="day-4">
-        <div class="col-3" date>today</div>
-        <div class="col-3">
-          <div sky class="row-6"></div>
-          <div wind class="row-6"></div>
-        </div>
-        <div class="col-3" temp>today</div>
-        <div class="col-3" humidity-rain>
-          <div humidity class="row-6"></div>
-          <div rain class="row-6"></div>
-        </div>
-      </div>
-      <div class="row w-100 m-auto" id="day-5">
-        <div class="col-3" date>tomorrow</div>
-        <div class="col-3">
-          <div sky class="row-6"></div>
-          <div wind class="row-6"></div>
-        </div>
-        <div class="col-3" temp>tomorrow</div>
-        <div class="col-3" humidity-rain>
-          <div humidity class="row-6"></div>
-          <div rain class="row-6"></div>
-        </div>
-      </div>
-      <div class="row w-100 m-auto" id="day-6">
-        <div class="col-3" date>today</div>
-        <div class="col-3">
-          <div sky class="row-6"></div>
-          <div wind class="row-6"></div>
-        </div>
-        <div class="col-3" temp>today</div>
-        <div class="col-3" humidity-rain>
-          <div humidity class="row-6"></div>
-          <div rain class="row-6"></div>
-        </div>
-      </div>
-    </div>
+    </main>
     <script src="main.js"></script>
   </body>
 </html>
