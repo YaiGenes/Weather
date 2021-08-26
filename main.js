@@ -7,7 +7,6 @@ function getCities() {
     })
     .then((data) => {
       document.querySelector("#introduction span").textContent = data.length;
-      console.log(data.length);
       printCityList(data);
     })
 
@@ -42,11 +41,9 @@ function searchCity() {
         })
         .then((data) => {
           //-CityName
-
           printCityInfo(data);
 
           //-WEATHER
-
           let days = document.querySelectorAll("[daynumber]");
           let sky = document.querySelectorAll("[sky]");
           let windDiv = document.querySelectorAll("[wind]");
@@ -58,8 +55,7 @@ function searchCity() {
           for (let i = 0; i < days.length; i++) {
             // For today (i=0), the API access to the weather data have a different path
             if (i === 0) {
-              document.querySelectorAll("[dayname]")[0].innerHTML =
-                "<b>Today</b>";
+              document.querySelectorAll("[dayname]")[0].innerHTML = "Today";
               //-Date
               let dateToSplit0 = data.fecha;
               printDate(dateToSplit0, days[i]);
@@ -93,10 +89,9 @@ function searchCity() {
               getRainAverage(rains, allrain, i);
             } else {
               //-Date
-              printDate(
-                data.proximos_dias[i - 1]["@attributes"].fecha,
-                days[i]
-              );
+              let apiDays = data.proximos_dias[i - 1]["@attributes"].fecha;
+              printDate(apiDays, days[i]);
+              printDayName(apiDays, i);
 
               //-Sky
               if (typeof data.proximos_dias[i - 1].estado_cielo !== "string") {
@@ -120,7 +115,7 @@ function searchCity() {
                 getWind(windDiv, wind, i);
                 let allRain = data.proximos_dias[i - 1].prob_precipitacion;
 
-                rains[i].textContent = `Rain: ${allRain}%`;
+                rains[i].innerHTML = `<b>Rain:</b> ${allRain}%`;
               }
 
               //-Temp
@@ -146,6 +141,24 @@ function searchCity() {
         });
     }
   });
+}
+
+function printDayName(days, i) {
+  // Use array to link getDay() to the name of the day
+
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let newDate = new Date(days);
+  let dayNames = document.querySelectorAll("[dayname]");
+  dayNames[i].textContent = weekday[newDate.getDay()];
 }
 
 function printDate(dateToSplit, day) {
