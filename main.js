@@ -45,7 +45,7 @@ function searchCity() {
 
           //-WEATHER
 
-          let days = document.querySelectorAll("[date]");
+          let days = document.querySelectorAll("[daynumber]");
           let sky = document.querySelectorAll("[sky]");
           let windDiv = document.querySelectorAll("[wind]");
           let temps = document.querySelectorAll("[temp]");
@@ -56,6 +56,8 @@ function searchCity() {
           for (let i = 0; i < days.length; i++) {
             // For today (i=0), the API access to the weather data have a different path
             if (i === 0) {
+              document.querySelectorAll("[dayname]")[0].innerHTML =
+                "<b>Today</b>";
               //-Date
               let dateToSplit0 = data.fecha;
               printDate(dateToSplit0, days[i]);
@@ -127,12 +129,16 @@ function searchCity() {
               //-Sens
               let sensMax = data.proximos_dias[i - 1].sens_termica.maxima;
               let sensMin = data.proximos_dias[i - 1].sens_termica.minima;
-              sens[i].textContent = `T.Sensation: ${sensMin}ºC - ${sensMax}ºC`;
+              sens[
+                i
+              ].innerHTML = `<b>T.Sensation:</b> ${sensMin}ºC - ${sensMax}ºC`;
 
               //-Humidity
               let humMax = data.proximos_dias[i - 1].humedad_relativa.maxima;
               let humMin = data.proximos_dias[i - 1].humedad_relativa.minima;
-              humidities[i].textContent = `Humidity: ${humMin}% - ${humMax}%`;
+              humidities[
+                i
+              ].innerHTML = `<b>Humidity:</b> ${humMin}% - ${humMax}%`;
             }
           }
         });
@@ -195,7 +201,7 @@ function getWind(windSelector, wind, i) {
 }
 
 function getTemperature(tempSelector, tempMin, tempMax, i) {
-  tempSelector[i].textContent = `Temperature: ${tempMin}ºC - ${tempMax}ºC`;
+  tempSelector[i].innerHTML = `<b>Temperature:</b> ${tempMin}ºC - ${tempMax}ºC`;
 }
 
 function getSensationAverage(sensSelector, allSens, i) {
@@ -203,7 +209,7 @@ function getSensationAverage(sensSelector, allSens, i) {
   allSens.forEach((element) => {
     intSens.push(parseInt(element));
   });
-  sensSelector[i].textContent = `T.Sensation: ${Math.min(
+  sensSelector[i].innerHTML = `<b>T.Sensation:</b> ${Math.min(
     ...intSens
   )} - ${Math.max(...intSens)}`;
 }
@@ -215,7 +221,7 @@ function getHumidityAverage(humiditySelector, humidity, i) {
   });
   let humMax = Math.max(...intHum);
   let humMin = Math.min(...intHum);
-  humiditySelector[i].textContent = `Humidity: ${humMin}% - ${humMax}%`;
+  humiditySelector[i].innerHTML = `<b>Humidity:</b> ${humMin}% - ${humMax}%`;
 }
 
 function getRainAverage(rainSelector, rain, i) {
@@ -225,5 +231,5 @@ function getRainAverage(rainSelector, rain, i) {
   });
   let rainMax = Math.max(...intrain);
   let rainMin = Math.min(...intrain);
-  rainSelector[i].textContent = `Rain: ${rainMin}% - ${rainMax}%`;
+  rainSelector[i].innerHTML = `<b>Rain:</b> ${rainMin}% - ${rainMax}%`;
 }
