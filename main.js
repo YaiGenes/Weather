@@ -131,7 +131,7 @@ function searchCity() {
               let sensMin = data.proximos_dias[i - 1].sens_termica.minima;
               sens[
                 i
-              ].innerHTML = `<b>T.Sensation:</b> ${sensMin}ºC - ${sensMax}ºC`;
+              ].innerHTML = `<b>T.Sensation:</b> <span style="color: blue">${sensMin}ºC</span> - <span style="color: red">${sensMax}ºC</span>`;
 
               //-Humidity
               let humMax = data.proximos_dias[i - 1].humedad_relativa.maxima;
@@ -201,7 +201,9 @@ function getWind(windSelector, wind, i) {
 }
 
 function getTemperature(tempSelector, tempMin, tempMax, i) {
-  tempSelector[i].innerHTML = `<b>Temperature:</b> ${tempMin}ºC - ${tempMax}ºC`;
+  tempSelector[
+    i
+  ].innerHTML = `<b>Temperature:</b> <span style="color: blue">${tempMin}ºC</span> - <span style="color: red">${tempMax}ºC</span>`;
 }
 
 function getSensationAverage(sensSelector, allSens, i) {
@@ -209,9 +211,11 @@ function getSensationAverage(sensSelector, allSens, i) {
   allSens.forEach((element) => {
     intSens.push(parseInt(element));
   });
-  sensSelector[i].innerHTML = `<b>T.Sensation:</b> ${Math.min(
+  sensSelector[
+    i
+  ].innerHTML = `<b>T.Sensation:</b> <span style="color: blue">${Math.min(
     ...intSens
-  )} - ${Math.max(...intSens)}`;
+  )}ºC</span> - <span style="color: red">${Math.max(...intSens)}ºC</span>`;
 }
 
 function getHumidityAverage(humiditySelector, humidity, i) {
