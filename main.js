@@ -14,19 +14,6 @@ function getCities() {
     });
 }
 
-function printCities(ApiData) {
-  ApiData.forEach((element) => {
-    let INE = element.CODIGOINE;
-
-    let dataCity = INE.slice(0, 5);
-    document
-      .querySelector("#datalistOptions")
-      .insertAdjacentHTML(
-        "beforeend",
-        `<option data-prov=${element.CODPROV} data-city=${dataCity}>${element.NOMBRE}</option>`
-      );
-  });
-}
 getCities();
 
 document.querySelector("#search").addEventListener("click", searchCity);
@@ -42,7 +29,6 @@ function searchCity() {
     if (cityName == option.textContent) {
       let codProv = option.dataset.prov;
       let codCity = option.dataset.city;
-      console.log(codProv, codCity);
       fetch(
         `https://www.el-tiempo.net/api/json/v2/provincias/${codProv}/municipios/${codCity}`,
         {
@@ -54,12 +40,8 @@ function searchCity() {
         })
         .then((data) => {
           //-CityName
-          let cityName = document.querySelector("#cityName");
-          let provinceName = document.querySelector("#provinceName");
-          let province = data.municipio.NOMBRE_PROVINCIA;
-          let city = data.municipio.NOMBRE;
-          cityName.innerHTML = city;
-          provinceName.innerHTML = province;
+
+          printCityInfo(data);
 
           //-WEATHER
 
@@ -67,188 +49,94 @@ function searchCity() {
           let sky = document.querySelectorAll("[sky]");
           let windDiv = document.querySelectorAll("[wind]");
           let temps = document.querySelectorAll("[temp]");
+          let sens = document.querySelectorAll("[sens]");
+          let humidities = document.querySelectorAll("[humidity]");
+          let rains = document.querySelectorAll("[rain]");
+
           for (let i = 0; i < days.length; i++) {
+            // For today (i=0), the API access to the weather data have a different path
             if (i === 0) {
               //-Date
               let dateToSplit0 = data.fecha;
-              splitDate(dateToSplit0, days[i]);
+              printDate(dateToSplit0, days[i]);
 
               //-Sky(Wind+SkyStatus)
               let stateSky = data.stateSky.id;
+              getSky(sky, stateSky, i);
 
-              if (sky[i].children.length == 0) {
-                sky[i].insertAdjacentHTML(
-                  "beforeend",
-                  `<img sky-${i} src="assets/icons/sky/${stateSky}.png">`
-                );
-              } else {
-                document.querySelector(
-                  `[sky-${i}]`
-                ).src = `assets/icons/sky/${stateSky}.png`;
-              }
               //-Wind
               let wind = data.pronostico.hoy.viento[0].direccion;
 
-              if (windDiv[i].children.length == 0) {
-                windDiv[i].insertAdjacentHTML(
-                  "beforeend",
-                  `<img wind-${i} src="assets/icons/wind/${wind}.png"><p p-wind-${i}>${wind}</p>`
-                );
-              } else {
-                document.querySelector(
-                  `[wind-${i}]`
-                ).src = `assets/icons/wind/${wind}.png`;
-                document.querySelector(`[p-wind-${i}]`).textContent = wind;
-              }
+              getWind(windDiv, wind, i);
 
               //-Temp
               let tempMax = data.temperaturas.max;
               let tempMin = data.temperaturas.min;
-              temps[0].textContent = `Temperature: ${tempMin}ºC - ${tempMax}ºC`;
+
+              getTemperature(temps, tempMin, tempMax, i);
 
               //-Sens
               let allSens = data.pronostico.hoy.sens_termica;
-              let intSens = [];
-              allSens.forEach((element) => {
-                intSens.push(parseInt(element));
-              });
-              document.querySelector(
-                "[sens]"
-              ).textContent = `T.Sensation: ${Math.min(
-                ...intSens
-              )} - ${Math.max(...intSens)}`;
+
+              getSensationAverage(sens, allSens, i);
 
               //-Humidity
               let allHum = data.pronostico.hoy.humedad_relativa;
-              let intHum = [];
-              allHum.forEach((element) => {
-                intHum.push(parseInt(element));
-              });
-              let humMax = Math.max(...intHum);
-              let humMin = Math.min(...intHum);
-              document.querySelectorAll(
-                "[humidity]"
-              )[0].textContent = `Humidity: ${humMin}% - ${humMax}%`;
+
+              getHumidityAverage(humidities, allHum, i);
 
               //-Rain
               let allrain = data.pronostico.hoy.prob_precipitacion;
-              let intrain = [];
-              allrain.forEach((element) => {
-                intrain.push(parseInt(element));
-              });
-              let rainMax = Math.max(...intrain);
-              let rainMin = Math.min(...intrain);
-              document.querySelectorAll(
-                "[rain]"
-              )[0].textContent = `Rain: ${rainMin}% - ${rainMax}%`;
+
+              getRainAverage(rains, allrain, i);
             } else {
               //-Date
-              splitDate(
+              printDate(
                 data.proximos_dias[i - 1]["@attributes"].fecha,
                 days[i]
               );
 
               //-Sky
-              if (sky[i].children.length == 0) {
-                if (
-                  typeof data.proximos_dias[i - 1].estado_cielo !== "string"
-                ) {
-                  let stateSky = data.proximos_dias[i - 1].estado_cielo[0];
-                  sky[i].insertAdjacentHTML(
-                    "beforeend",
-                    `<img sky-${i} src="assets/icons/sky/${stateSky}.png">`
-                  );
-                } else {
-                  let stateSky = data.proximos_dias[i - 1].estado_cielo;
-                  sky[i].insertAdjacentHTML(
-                    "beforeend",
-                    `<img sky-${i} src="assets/icons/sky/${stateSky}.png">`
-                  );
-                }
+              if (typeof data.proximos_dias[i - 1].estado_cielo !== "string") {
+                let stateSky = data.proximos_dias[i - 1].estado_cielo[0];
+                getSky(sky, stateSky, i);
               } else {
-                if (
-                  typeof data.proximos_dias[i - 1].estado_cielo !== "string"
-                ) {
-                  let stateSky = data.proximos_dias[i - 1].estado_cielo[0];
-                  document.querySelector(
-                    `[sky-${i}]`
-                  ).src = `assets/icons/sky/${stateSky}.png`;
-                } else {
-                  let stateSky = data.proximos_dias[i - 1].estado_cielo;
-                  document.querySelector(
-                    `[sky-${i}]`
-                  ).src = `assets/icons/sky/${stateSky}.png`;
-                }
+                let stateSky = data.proximos_dias[i - 1].estado_cielo;
+                getSky(sky, stateSky, i);
               }
 
               //-Wind
-              if (windDiv[i].children.length == 0) {
-                if (i < 4) {
-                  let wind = data.proximos_dias[i - 1].viento[0].direccion;
-                  windDiv[i].insertAdjacentHTML(
-                    "beforeend",
-                    `<img wind-${i} src="assets/icons/wind/${wind}.png"><p p-wind-${i}>${wind}</p>`
-                  );
-                } else {
-                  let wind = data.proximos_dias[i - 1].viento.direccion;
-                  windDiv[i].insertAdjacentHTML(
-                    "beforeend",
-                    `<img wind-${i} src="assets/icons/wind/${wind}.png"><p p-wind-${i}>${wind}</p>`
-                  );
-                }
+              if (i < 4) {
+                let wind = data.proximos_dias[i - 1].viento[0].direccion;
+                getWind(windDiv, wind, i);
               } else {
-                if (i < 4) {
-                  let wind = data.proximos_dias[i - 1].viento[0].direccion;
-
-                  document.querySelector(
-                    `[wind-${i}]`
-                  ).src = `assets/icons/wind/${wind}.png `;
-                  document.querySelector(`[p-wind-${i}]`).textContent = wind;
-                } else {
-                  let wind = data.proximos_dias[i - 1].viento.direccion;
-                  document.querySelector(
-                    `[wind-${i}]`
-                  ).src = `assets/icons/wind/${wind}.png `;
-                  document.querySelector(`[p-wind-${i}]`).textContent = wind;
-                }
+                let wind = data.proximos_dias[i - 1].viento.direccion;
+                getWind(windDiv, wind, i);
               }
+
               //-Temp
               let tempMax = data.proximos_dias[i - 1].temperatura.maxima;
               let tempMin = data.proximos_dias[i - 1].temperatura.minima;
-              temps[i].textContent = `Temperature: ${tempMin}ºC - ${tempMax}ºC`;
+              getTemperature(temps, tempMin, tempMax, i);
 
               //-Sens
               let sensMax = data.proximos_dias[i - 1].sens_termica.maxima;
               let sensMin = data.proximos_dias[i - 1].sens_termica.minima;
-              document.querySelectorAll("[sens]")[
-                i
-              ].textContent = `T.Sensation: ${sensMin}ºC - ${sensMax}ºC`;
+              sens[i].textContent = `T.Sensation: ${sensMin}ºC - ${sensMax}ºC`;
 
               //-Humidity
               let humMax = data.proximos_dias[i - 1].humedad_relativa.maxima;
               let humMin = data.proximos_dias[i - 1].humedad_relativa.minima;
-              document.querySelectorAll("[humidity]")[
-                i
-              ].textContent = `Humidity: ${humMin}% - ${humMax}%`;
+              humidities[i].textContent = `Humidity: ${humMin}% - ${humMax}%`;
 
               //-Rain
               if (i < 4) {
                 let allrain = data.proximos_dias[i - 1].prob_precipitacion;
-                let intrain = [];
-                allrain.forEach((element) => {
-                  intrain.push(parseInt(element));
-                });
-                let rainMax = Math.max(...intrain);
-                let rainMin = Math.min(...intrain);
-                document.querySelectorAll("[rain]")[
-                  i
-                ].textContent = `Rain: ${rainMin}% - ${rainMax}%`;
+                getRainAverage(rains, allrain, i);
               } else {
                 let allRain = data.proximos_dias[i - 1].prob_precipitacion;
 
-                document.querySelectorAll("[rain]")[
-                  i
-                ].textContent = `Rain: ${allRain}%`;
+                rains[i].textContent = `Rain: ${allRain}%`;
               }
             }
           }
@@ -257,11 +145,91 @@ function searchCity() {
   });
 }
 
-// HOY - HUMEDAD RELATIVA MUCHOS DATOS, PROB PRECIPITACION VARIOS DATOS
-// RESTO -   HUMEDAD MAX Y MIN                             ''
-
-function splitDate(dateToSplit, day) {
+function printDate(dateToSplit, day) {
   let date = dateToSplit.split("-");
   let newDate = date[2] + "/" + date[1];
   day.innerHTML = newDate;
 }
+
+function printCityInfo(apiData) {
+  let cityName = document.querySelector("#cityName");
+  let provinceName = document.querySelector("#provinceName");
+  let province = apiData.municipio.NOMBRE_PROVINCIA;
+  let city = apiData.municipio.NOMBRE;
+  cityName.innerHTML = city;
+  provinceName.innerHTML = province;
+}
+
+function printCities(apiData) {
+  apiData.forEach((element) => {
+    let INE = element.CODIGOINE;
+
+    let dataCity = INE.slice(0, 5);
+    document
+      .querySelector("#datalistOptions")
+      .insertAdjacentHTML(
+        "beforeend",
+        `<option data-prov=${element.CODPROV} data-city=${dataCity}>${element.NOMBRE}</option>`
+      );
+  });
+}
+
+function getSky(skySelector, stateSky, i) {
+  if (skySelector[i].children.length == 0) {
+    skySelector[i].insertAdjacentHTML(
+      "beforeend",
+      `<img sky-${i} src="assets/icons/sky/${stateSky}.png">`
+    );
+  } else {
+    document.querySelector(
+      `[sky-${i}]`
+    ).src = `assets/icons/sky/${stateSky}.png`;
+  }
+}
+
+function getWind(windSelector, wind, i) {
+  if (windSelector[i].children.length == 0) {
+    windSelector[i].insertAdjacentHTML(
+      "beforeend",
+      `<img wind-${i} src="assets/icons/wind/${wind}.png"><p p-wind-${i}>${wind}</p>`
+    );
+  } else {
+    document.querySelector(`[wind-${0}]`).src = `assets/icons/wind/${wind}.png`;
+    document.querySelector(`[p-wind-${0}]`).textContent = wind;
+  }
+}
+
+function getTemperature(tempSelector, tempMin, tempMax, i) {
+  tempSelector[i].textContent = `Temperature: ${tempMin}ºC - ${tempMax}ºC`;
+}
+
+function getSensationAverage(sensSelector, allSens, i) {
+  let intSens = [];
+  allSens.forEach((element) => {
+    intSens.push(parseInt(element));
+  });
+  sensSelector[i].textContent = `T.Sensation: ${Math.min(
+    ...intSens
+  )} - ${Math.max(...intSens)}`;
+}
+
+function getHumidityAverage(humiditySelector, humidity, i) {
+  let intHum = [];
+  humidity.forEach((element) => {
+    intHum.push(parseInt(element));
+  });
+  let humMax = Math.max(...intHum);
+  let humMin = Math.min(...intHum);
+  humiditySelector[i].textContent = `Humidity: ${humMin}% - ${humMax}%`;
+}
+
+function getRainAverage(rainSelector, rain, i) {
+  let intrain = [];
+  rain.forEach((element) => {
+    intrain.push(parseInt(element));
+  });
+  let rainMax = Math.max(...intrain);
+  let rainMin = Math.min(...intrain);
+  rainSelector[i].textContent = `Rain: ${rainMin}% - ${rainMax}%`;
+}
+//
