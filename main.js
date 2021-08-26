@@ -1,3 +1,7 @@
+validateCity();
+getCities();
+document.querySelector("#search").addEventListener("click", searchCity);
+
 function getCities() {
   fetch("https://www.el-tiempo.net/api/json/v2/municipios", {
     method: "GET",
@@ -14,10 +18,6 @@ function getCities() {
       console.error(err);
     });
 }
-
-getCities();
-
-document.querySelector("#search").addEventListener("click", searchCity);
 
 function searchCity() {
   let options = document.querySelectorAll("#datalistOptions option");
@@ -41,6 +41,7 @@ function searchCity() {
         })
         .then((data) => {
           //-CityName
+
           printCityInfo(data);
 
           //-WEATHER
@@ -169,11 +170,21 @@ function printDate(dateToSplit, day) {
 
 function printCityInfo(apiData) {
   let cityName = document.querySelector("#cityName");
-  let provinceName = document.querySelector("#provinceName");
-  let province = apiData.municipio.NOMBRE_PROVINCIA;
   let city = apiData.municipio.NOMBRE;
   cityName.innerHTML = city;
-  provinceName.innerHTML = province;
+
+  let provinceName = document.querySelector("#provinceName");
+  let province = apiData.municipio.NOMBRE_PROVINCIA;
+  provinceName.innerHTML = `Province: ${province}`;
+
+  let populationSelector = document.querySelector("#population");
+  let population = apiData.municipio.POBLACION_MUNI;
+  populationSelector.innerHTML = `Population: ${population} inhabitants`;
+
+  let heightSelector = document.querySelector("#height");
+  let height = apiData.municipio.ALTITUD;
+  heightSelector.innerHTML = `Height: ${height}m`;
+  console.log();
 }
 
 function printCityList(apiData) {
@@ -251,4 +262,22 @@ function getRainAverage(rainSelector, rain, i) {
   let rainMax = Math.max(...intrain);
   let rainMin = Math.min(...intrain);
   rainSelector[i].innerHTML = `<b>Rain:</b> ${rainMin}% - ${rainMax}%`;
+}
+
+function validateCity() {
+  let btn = document.querySelector("#search");
+  btn.disabled = true;
+
+  let searchBox = document.querySelector("#exampleDataList");
+  searchBox.addEventListener("input", () => {
+    btn.disabled = true;
+
+    let options = document.querySelectorAll("option");
+    options.forEach((element) => {
+      if (element.textContent == searchBox.value) {
+        console.log("EEE");
+        btn.disabled = false;
+      }
+    });
+  });
 }
