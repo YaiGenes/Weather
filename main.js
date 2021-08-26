@@ -6,7 +6,7 @@ function getCities() {
       return response.json();
     })
     .then((data) => {
-      printCities(data);
+      printCityList(data);
     })
 
     .catch((err) => {
@@ -82,12 +82,10 @@ function searchCity() {
 
               //-Humidity
               let allHum = data.pronostico.hoy.humedad_relativa;
-
               getHumidityAverage(humidities, allHum, i);
 
               //-Rain
               let allrain = data.pronostico.hoy.prob_precipitacion;
-
               getRainAverage(rains, allrain, i);
             } else {
               //-Date
@@ -160,7 +158,7 @@ function printCityInfo(apiData) {
   provinceName.innerHTML = province;
 }
 
-function printCities(apiData) {
+function printCityList(apiData) {
   apiData.forEach((element) => {
     let INE = element.CODIGOINE;
 
