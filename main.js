@@ -6,22 +6,26 @@ function getCities() {
       return response.json();
     })
     .then((data) => {
-      data.forEach((element) => {
-        let INE = element.CODIGOINE;
-
-        let dataCity = INE.slice(0, 5);
-        document
-          .querySelector("#datalistOptions")
-          .insertAdjacentHTML(
-            "beforeend",
-            `<option data-prov=${element.CODPROV} data-city=${dataCity}>${element.NOMBRE}</option>`
-          );
-      });
+      printCities(data);
     })
 
     .catch((err) => {
       console.error(err);
     });
+}
+
+function printCities(ApiData) {
+  ApiData.forEach((element) => {
+    let INE = element.CODIGOINE;
+
+    let dataCity = INE.slice(0, 5);
+    document
+      .querySelector("#datalistOptions")
+      .insertAdjacentHTML(
+        "beforeend",
+        `<option data-prov=${element.CODPROV} data-city=${dataCity}>${element.NOMBRE}</option>`
+      );
+  });
 }
 getCities();
 
@@ -33,10 +37,6 @@ function searchCity() {
 
   document.querySelectorAll("[date]").innerHTML = "";
   document.querySelectorAll("[sky]").innerHTML = "";
-  /*
-  document.querySelectorAll("[wind]").innerHTML = "";
-  document.querySelectorAll("[temp]").innerHTML = "";
-  */
 
   options.forEach((option) => {
     if (cityName == option.textContent) {
