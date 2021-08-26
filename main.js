@@ -103,13 +103,20 @@ function searchCity() {
                 getSky(sky, stateSky, i);
               }
 
-              //-Wind
+              //-Wind and Rain
+
+              // Api has different route for Wind and Rain after 5th day
               if (i < 4) {
                 let wind = data.proximos_dias[i - 1].viento[0].direccion;
                 getWind(windDiv, wind, i);
+                let allrain = data.proximos_dias[i - 1].prob_precipitacion;
+                getRainAverage(rains, allrain, i);
               } else {
                 let wind = data.proximos_dias[i - 1].viento.direccion;
                 getWind(windDiv, wind, i);
+                let allRain = data.proximos_dias[i - 1].prob_precipitacion;
+
+                rains[i].textContent = `Rain: ${allRain}%`;
               }
 
               //-Temp
@@ -126,16 +133,6 @@ function searchCity() {
               let humMax = data.proximos_dias[i - 1].humedad_relativa.maxima;
               let humMin = data.proximos_dias[i - 1].humedad_relativa.minima;
               humidities[i].textContent = `Humidity: ${humMin}% - ${humMax}%`;
-
-              //-Rain
-              if (i < 4) {
-                let allrain = data.proximos_dias[i - 1].prob_precipitacion;
-                getRainAverage(rains, allrain, i);
-              } else {
-                let allRain = data.proximos_dias[i - 1].prob_precipitacion;
-
-                rains[i].textContent = `Rain: ${allRain}%`;
-              }
             }
           }
         });
@@ -230,4 +227,3 @@ function getRainAverage(rainSelector, rain, i) {
   let rainMin = Math.min(...intrain);
   rainSelector[i].textContent = `Rain: ${rainMin}% - ${rainMax}%`;
 }
-//
