@@ -6,6 +6,8 @@ function getCities() {
       return response.json();
     })
     .then((data) => {
+      document.querySelector("#introduction span").textContent = data.length;
+      console.log(data.length);
       printCityList(data);
     })
 
