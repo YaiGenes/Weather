@@ -87,7 +87,7 @@ function searchCity() {
 
               //-Rain
               let allrain = data.pronostico.hoy.prob_precipitacion;
-              getRainAverage(rains, allrain, i);
+              getRain(rains, allrain, i);
             } else {
               //-Date
               let apiDays = data.proximos_dias[i - 1]["@attributes"].fecha;
@@ -110,7 +110,7 @@ function searchCity() {
                 let wind = data.proximos_dias[i - 1].viento[0].direccion;
                 getWind(windDiv, wind, i);
                 let allrain = data.proximos_dias[i - 1].prob_precipitacion;
-                getRainAverage(rains, allrain, i);
+                getRain(rains, allrain, i);
               } else {
                 let wind = data.proximos_dias[i - 1].viento.direccion;
                 getWind(windDiv, wind, i);
@@ -134,9 +134,13 @@ function searchCity() {
               //-Humidity
               let humMax = data.proximos_dias[i - 1].humedad_relativa.maxima;
               let humMin = data.proximos_dias[i - 1].humedad_relativa.minima;
-              humidities[
-                i
-              ].innerHTML = `<b>Humidity:</b> ${humMin}% - ${humMax}%`;
+              if (humMax != humMin) {
+                humidities[
+                  i
+                ].innerHTML = `<b>Humidity:</b> ${humMin}% - ${humMax}%`;
+              } else {
+                humidities[i].innerHTML = `<b>Humidity:</b> ${humMin}%`;
+              }
             }
           }
         });
@@ -251,17 +255,27 @@ function getHumidityAverage(humiditySelector, humidity, i) {
   });
   let humMax = Math.max(...intHum);
   let humMin = Math.min(...intHum);
-  humiditySelector[i].innerHTML = `<b>Humidity:</b> ${humMin}% - ${humMax}%`;
+
+  if (humMin != humMax) {
+    humiditySelector[i].innerHTML = `<b>Humidity:</b> ${humMin}% - ${humMax}%`;
+  } else {
+    humiditySelector[i].innerHTML = `<b>Humidity:</b> ${humMin}%`;
+  }
 }
 
-function getRainAverage(rainSelector, rain, i) {
+function getRain(rainSelector, rain, i) {
   let intrain = [];
   rain.forEach((element) => {
     intrain.push(parseInt(element));
   });
   let rainMax = Math.max(...intrain);
   let rainMin = Math.min(...intrain);
-  rainSelector[i].innerHTML = `<b>Rain:</b> ${rainMin}% - ${rainMax}%`;
+
+  if (rainMax != rainMin) {
+    rainSelector[i].innerHTML = `<b>Rain:</b> ${rainMin}% - ${rainMax}%`;
+  } else {
+    rainSelector[i].innerHTML = `<b>Rain:</b> ${rainMin}%`;
+  }
 }
 
 function validateCity() {
@@ -275,7 +289,6 @@ function validateCity() {
     let options = document.querySelectorAll("option");
     options.forEach((element) => {
       if (element.textContent == searchBox.value) {
-        console.log("EEE");
         btn.disabled = false;
       }
     });
