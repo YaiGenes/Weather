@@ -315,10 +315,6 @@ function charts(canvasMaxTemp, canvasMinTemp, name) {
   ).textContent = `Temperature evolution of ${name}`;
   if (myChart != null) {
     myChart.destroy();
-
-    console.log("EXISTE");
-  } else {
-    console.log("NO EXISTE");
   }
 
   //  document.querySelector("#chart").height = 100;
