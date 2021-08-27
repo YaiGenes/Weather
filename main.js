@@ -303,29 +303,34 @@ function validateCity() {
 }
 
 function charts(canvasMaxTemp, canvasMinTemp) {
-    let objTemp = { canvasMaxTemp, canvasMinTemp };
-    console.log(objTemp);
     var ctx = document.getElementById("chart").getContext("2d");
     let days = document.querySelectorAll("[dayname]");
+    let dates = document.querySelectorAll("[daynumber]");
     let xs = [];
-    days.forEach((day) => {
-        xs.push(day.textContent);
-    });
+    console.log(xs);
+    for (let i = 0; i < days.length; i++) {
+        xs.push(days[i].textContent + " (" + dates[i].textContent + ")");
+    }
     console.log(xs);
     var myChart = new Chart(ctx, {
         type: "line",
         data: {
             labels: xs,
             datasets: [{
-                label: ["Max temperature ªC", "Min temperature ªC"],
-                data: objTemp,
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(255, 159, 64, 0.2)",
-                ],
-                borderColor: ["rgba(255, 99, 132, 1)", "rgba(255, 159, 64, 1)"],
-                borderWidth: 1,
-            }, ],
+                    label: "Max temperature ªC",
+                    data: canvasMaxTemp,
+                    backgroundColor: ["red"],
+                    borderColor: ["red"],
+                    borderWidth: 1,
+                },
+                {
+                    label: "Min temperature ªC",
+                    data: canvasMinTemp,
+                    backgroundColor: ["blue"],
+                    borderColor: ["blue"],
+                    borderWidth: 1,
+                },
+            ],
         },
         options: {
             scales: {
