@@ -306,16 +306,29 @@ function validateCity() {
     });
   });
 }
+var myChart = null;
 
 function charts(canvasMaxTemp, canvasMinTemp) {
-  var ctx = document.getElementById("chart").getContext("2d");
+  let ctx = document.getElementById("chart").getContext("2d");
+
+  if (myChart != null) {
+    myChart.destroy();
+
+    console.log("EXISTE");
+  } else {
+    console.log("NO EXISTE");
+  }
+
+  //  document.querySelector("#chart").height = 100;
+
   let days = document.querySelectorAll("[dayname]");
   let dates = document.querySelectorAll("[daynumber]");
   let xs = [];
+
   for (let i = 0; i < days.length; i++) {
     xs.push(days[i].textContent + " (" + dates[i].textContent + ")");
   }
-  var myChart = new Chart(ctx, {
+  myChart = new Chart(ctx, {
     type: "line",
     data: {
       labels: xs,
@@ -325,14 +338,14 @@ function charts(canvasMaxTemp, canvasMinTemp) {
           data: canvasMaxTemp,
           backgroundColor: ["red"],
           borderColor: ["red"],
-          borderWidth: 1,
+          borderWidth: 2,
         },
         {
           label: "Min temperature ªC",
           data: canvasMinTemp,
           backgroundColor: ["blue"],
           borderColor: ["blue"],
-          borderWidth: 1,
+          borderWidth: 2,
         },
       ],
     },
@@ -347,10 +360,13 @@ function charts(canvasMaxTemp, canvasMinTemp) {
 }
 
 function printMap(lon, lat, name) {
-  document.querySelector("#map").innerHTML = `<img
-      width="600"
-      height="400"
-      src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=600&height=400&center=lonlat:${lon},${lat}&zoom=14&apiKey=4cd531caab244967a6b4b3b6f5d2e12b"
+  document.querySelector(
+    "#map"
+  ).innerHTML = `<p class="h5">Map of ${name}</p><img 
+      width="500"
+      height="auto"
+      class="border border-3 rounded-3"
+      src="https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${lon},${lat}&zoom=12&marker=lonlat:${lon},${lat};color:%23ff0000;size:medium;text:C&apiKey=4cd531caab244967a6b4b3b6f5d2e12b"
       alt="${name}"
     >`;
 }
