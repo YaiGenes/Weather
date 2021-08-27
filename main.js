@@ -154,7 +154,7 @@ function searchCity() {
               }
             }
           }
-          charts(canvasMaxTemp, canvasMinTemp);
+          charts(canvasMaxTemp, canvasMinTemp, name);
           printMap(lon, lat, name);
         });
     }
@@ -308,9 +308,11 @@ function validateCity() {
 }
 var myChart = null;
 
-function charts(canvasMaxTemp, canvasMinTemp) {
+function charts(canvasMaxTemp, canvasMinTemp, name) {
   let ctx = document.getElementById("chart").getContext("2d");
-
+  document.querySelector(
+    "#text-graph"
+  ).textContent = `Temperature evolution of ${name}`;
   if (myChart != null) {
     myChart.destroy();
 
@@ -363,10 +365,9 @@ function printMap(lon, lat, name) {
   document.querySelector(
     "#map"
   ).innerHTML = `<p class="h5">Map of ${name}</p><img 
-      width="500"
-      height="auto"
+      width="400"
       class="border border-3 rounded-3 m-0 max-w-100 max-h-100"
-      src="https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${lon},${lat}&zoom=12&marker=lonlat:${lon},${lat};color:%23ff0000;size:medium;text:C&apiKey=4cd531caab244967a6b4b3b6f5d2e12b"
+      src="https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=400&height=300&center=lonlat:${lon},${lat}&zoom=12&marker=lonlat:${lon},${lat};color:%23ff0000;size:medium;text:C&apiKey=4cd531caab244967a6b4b3b6f5d2e12b"
       alt="${name}"
     >`;
 }
