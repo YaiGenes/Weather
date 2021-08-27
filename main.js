@@ -1,6 +1,15 @@
-validateCity();
+let btn = document.querySelector("#search");
+
+validateCity(btn);
 getCities();
+
 document.querySelector("#search").addEventListener("click", searchCity);
+document.addEventListener("keypress", (e) => {
+  if (e.key === "Enter" && btn.disabled == false) {
+    document.querySelector("#exampleDataList").blur();
+    searchCity();
+  }
+});
 
 function getCities() {
   fetch("https://www.el-tiempo.net/api/json/v2/municipios", {
@@ -290,8 +299,7 @@ function getRain(rainSelector, rain, i) {
   }
 }
 
-function validateCity() {
-  let btn = document.querySelector("#search");
+function validateCity(btn) {
   btn.disabled = true;
 
   let searchBox = document.querySelector("#exampleDataList");
