@@ -365,7 +365,7 @@ function printMap(lon, lat, name) {
   ).innerHTML = `<p class="h5">Map of ${name}</p><img 
       width="500"
       height="auto"
-      class="border border-3 rounded-3"
+      class="border border-3 rounded-3 m-0 max-w-100 max-h-100"
       src="https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${lon},${lat}&zoom=12&marker=lonlat:${lon},${lat};color:%23ff0000;size:medium;text:C&apiKey=4cd531caab244967a6b4b3b6f5d2e12b"
       alt="${name}"
     >`;
