@@ -336,14 +336,14 @@ function charts(canvasMaxTemp, canvasMinTemp, name) {
       labels: xs,
       datasets: [
         {
-          label: "Max temperature ªC",
+          label: "Max temperature ºC",
           data: canvasMaxTemp,
           backgroundColor: ["red"],
           borderColor: ["red"],
           borderWidth: 2,
         },
         {
-          label: "Min temperature ªC",
+          label: "Min temperature ºC",
           data: canvasMinTemp,
           backgroundColor: ["blue"],
           borderColor: ["blue"],
