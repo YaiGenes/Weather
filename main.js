@@ -1,4 +1,5 @@
 let btn = document.querySelector("#search");
+var myChart = null;
 
 validateCity(btn);
 getCities();
@@ -10,6 +11,30 @@ document.addEventListener("keypress", (e) => {
     searchCity();
   }
 });
+
+function validateCity(btn) {
+  btn.disabled = true;
+  let searchBox = document.querySelector("#exampleDataList");
+  searchBox.addEventListener("input", () => {
+    // Suggest cities after 2 characters are written
+    if (document.querySelector("#exampleDataList").value.length > 1) {
+      document
+        .querySelector("#exampleDataList")
+        .setAttribute("list", "datalistOptions");
+    } else {
+      document.querySelector("#exampleDataList").setAttribute("list", "");
+    }
+
+    // Disable button after every input change, and check if the name is valid to enable it fast
+    btn.disabled = true;
+    let options = document.querySelectorAll("option");
+    options.forEach((element) => {
+      if (element.textContent == searchBox.value) {
+        btn.disabled = false;
+      }
+    });
+  });
+}
 
 function getCities() {
   fetch("https://www.el-tiempo.net/api/json/v2/municipios", {
@@ -299,23 +324,6 @@ function getRain(rainSelector, rain, i) {
   }
 }
 
-function validateCity(btn) {
-  btn.disabled = true;
-
-  let searchBox = document.querySelector("#exampleDataList");
-  searchBox.addEventListener("input", () => {
-    btn.disabled = true;
-
-    let options = document.querySelectorAll("option");
-    options.forEach((element) => {
-      if (element.textContent == searchBox.value) {
-        btn.disabled = false;
-      }
-    });
-  });
-}
-var myChart = null;
-
 function charts(canvasMaxTemp, canvasMinTemp, name) {
   let ctx = document.getElementById("chart").getContext("2d");
   document.querySelector(
@@ -324,8 +332,6 @@ function charts(canvasMaxTemp, canvasMinTemp, name) {
   if (myChart != null) {
     myChart.destroy();
   }
-
-  //  document.querySelector("#chart").height = 100;
 
   let days = document.querySelectorAll("[dayname]");
   let dates = document.querySelectorAll("[daynumber]");
